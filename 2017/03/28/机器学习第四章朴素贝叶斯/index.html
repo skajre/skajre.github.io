@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>机器学习第四章朴素贝叶斯 | skajre&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="朴素贝叶斯是一种根据概率估计值，给出一个最优类别的猜测的分类算法。
+之所以称之为”朴素”，是因为整个形式化过程只做了最原始，最简单的假设。一般来讲，对于一个特征，需要N个样本，那么对于10个样本，就需要$N^{10}$个样本，如果有1000个特征，就需要$N^{1000}$个样本，可以发现，数据量随着样本的增大而迅速增大，直到数据到达一个无法承受的量级。而朴素贝叶斯假设这些特征都是独立的，那么只需">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习第四章朴素贝叶斯">
+<meta property="og:url" content="http://skajre.github.com/2017/03/28/机器学习第四章朴素贝叶斯/index.html">
+<meta property="og:site_name" content="skajre's blog">
+<meta property="og:description" content="朴素贝叶斯是一种根据概率估计值，给出一个最优类别的猜测的分类算法。
+之所以称之为”朴素”，是因为整个形式化过程只做了最原始，最简单的假设。一般来讲，对于一个特征，需要N个样本，那么对于10个样本，就需要$N^{10}$个样本，如果有1000个特征，就需要$N^{1000}$个样本，可以发现，数据量随着样本的增大而迅速增大，直到数据到达一个无法承受的量级。而朴素贝叶斯假设这些特征都是独立的，那么只需">
+<meta property="og:updated_time" content="2017-03-29T10:01:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习第四章朴素贝叶斯">
+<meta name="twitter:description" content="朴素贝叶斯是一种根据概率估计值，给出一个最优类别的猜测的分类算法。
+之所以称之为”朴素”，是因为整个形式化过程只做了最原始，最简单的假设。一般来讲，对于一个特征，需要N个样本，那么对于10个样本，就需要$N^{10}$个样本，如果有1000个特征，就需要$N^{1000}$个样本，可以发现，数据量随着样本的增大而迅速增大，直到数据到达一个无法承受的量级。而朴素贝叶斯假设这些特征都是独立的，那么只需">
+  
+    <link rel="alternate" href="/atom.xml" title="skajre&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">skajre&#39;s blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">stay foolish,stay hungry</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://skajre.github.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-机器学习第四章朴素贝叶斯" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/28/机器学习第四章朴素贝叶斯/" class="article-date">
+  <time datetime="2017-03-28T14:55:18.000Z" itemprop="datePublished">2017-03-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      机器学习第四章朴素贝叶斯
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors"></div><br>朴素贝叶斯是一种根据概率估计值，给出一个最优类别的猜测的分类算法。</p>
+<p>之所以称之为”朴素”，是因为整个形式化过程只做了最原始，最简单的假设。一般来讲，对于一个特征，需要N个样本，那么对于10个样本，就需要$N^{10}$个样本，如果有1000个特征，就需要$N^{1000}$个样本，可以发现，数据量随着样本的增大而迅速增大，直到数据到达一个无法承受的量级。而朴素贝叶斯假设这些特征都是独立的，那么只需要$1000 \times N$个样本，数据量就下降到了一个我们可以承受的量级。当然，我们知道这种假设是不正确的，但这正是朴素贝叶斯分类器中朴素一词的含义。</p>
+<p>一个实例属于某个类的公式为：$p(c<em>{i}|w)=\frac{p(w|c</em>{i})p(c_{i})}{p(w)}$，$w$为有n个特征值的向量。</p>
+<p>由于之前假设特征独立，那么$p(w|c<em>{i})=p(w</em>{0}|c<em>{i}) \dots p(w</em>{n}|c_{i})$，然后直接选择概率最大的类就可以了。</p>
+<a id="more"></a>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">from</span> math <span class="keyword">import</span> log</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadDataSet</span><span class="params">()</span>:</span></div><div class="line">    postingList=[[<span class="string">'my'</span>, <span class="string">'dog'</span>, <span class="string">'has'</span>, <span class="string">'flea'</span>, <span class="string">'problems'</span>, <span class="string">'help'</span>, <span class="string">'please'</span>],</div><div class="line">                 [<span class="string">'maybe'</span>, <span class="string">'not'</span>, <span class="string">'take'</span>, <span class="string">'him'</span>, <span class="string">'to'</span>, <span class="string">'dog'</span>, <span class="string">'park'</span>, <span class="string">'stupid'</span>],</div><div class="line">                 [<span class="string">'my'</span>, <span class="string">'dalmation'</span>, <span class="string">'is'</span>, <span class="string">'so'</span>, <span class="string">'cute'</span>, <span class="string">'I'</span>, <span class="string">'love'</span>, <span class="string">'him'</span>],</div><div class="line">                 [<span class="string">'stop'</span>, <span class="string">'posting'</span>, <span class="string">'stupid'</span>, <span class="string">'worthless'</span>, <span class="string">'garbage'</span>],</div><div class="line">                 [<span class="string">'mr'</span>, <span class="string">'licks'</span>, <span class="string">'ate'</span>, <span class="string">'my'</span>, <span class="string">'steak'</span>, <span class="string">'how'</span>, <span class="string">'to'</span>, <span class="string">'stop'</span>, <span class="string">'him'</span>],</div><div class="line">                 [<span class="string">'quit'</span>, <span class="string">'buying'</span>, <span class="string">'worthless'</span>, <span class="string">'dog'</span>, <span class="string">'food'</span>, <span class="string">'stupid'</span>]]</div><div class="line">    classVec = [<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>]    <span class="comment">#1 is abusive, 0 not</span></div><div class="line">    <span class="keyword">return</span> postingList,classVec</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">createVocabList</span><span class="params">(dataSet)</span>:</span></div><div class="line">	vocabList = set([])</div><div class="line">	<span class="keyword">for</span> document <span class="keyword">in</span> dataSet:</div><div class="line">		vocabList = vocabList | set(document)</div><div class="line">	<span class="keyword">return</span> list(vocabList)</div><div class="line"></div><div class="line"><span class="comment">#词集模型</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">setOfWord2Vec</span><span class="params">(vocabList,inputSet)</span>:</span></div><div class="line">	returnVec = [<span class="number">0</span>]*len(vocabList)</div><div class="line">	<span class="keyword">for</span> word <span class="keyword">in</span> inputSet:</div><div class="line">		<span class="keyword">if</span> word <span class="keyword">in</span> vocabList:</div><div class="line">			returnVec[vocabList.index(word)] = <span class="number">1</span></div><div class="line">		<span class="keyword">else</span>:</div><div class="line">			<span class="keyword">print</span> <span class="string">"the word: %s is not in my Vocabulary!"</span> % word</div><div class="line">	<span class="keyword">return</span> returnVec</div><div class="line"></div><div class="line"><span class="comment">#词戴模型</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">bagOfWord2Vec</span><span class="params">(vocabList,inputSet)</span>:</span></div><div class="line">	returnVec = [<span class="number">0</span>]*len(vocabList)</div><div class="line">	<span class="keyword">for</span> word <span class="keyword">in</span> inputSet:</div><div class="line">		<span class="keyword">if</span> word <span class="keyword">in</span> vocabList:</div><div class="line">			returnVec[vocabList.index(word)] += <span class="number">1</span></div><div class="line">	<span class="keyword">return</span> returnVec</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">trainNBO</span><span class="params">(trainMatrix,trainCategory)</span>:</span></div><div class="line">	numTrainDocs = len(trainMatrix)</div><div class="line">	numWords = len(trainMatrix[<span class="number">0</span>])</div><div class="line">	pAbusive = sum(trainCategory)/float(numTrainDocs)</div><div class="line">	p0Num = np.ones(numWords); p1Num = np.ones(numWords)</div><div class="line">	p0Denom = <span class="number">2.0</span>; p1Denom = <span class="number">2.0</span></div><div class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(numTrainDocs):</div><div class="line">		<span class="keyword">if</span> trainCategory[i] == <span class="number">1</span>:</div><div class="line">			p1Num += trainMatrix[i];</div><div class="line">			p1Denom += sum(trainMatrix[i])</div><div class="line">		<span class="keyword">else</span>:</div><div class="line">			p0Num += trainMatrix[i]</div><div class="line">			p0Denom += sum(trainMatrix[i])</div><div class="line">	p1Vect = p1Num/p1Denom</div><div class="line">	p0Vect = p0Num/p0Denom</div><div class="line">	<span class="keyword">return</span> p0Vect,p1Vect,pAbusive</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">createTrainMat</span><span class="params">(listOPosts,myVocabList)</span>:</span></div><div class="line">	trainMat = []</div><div class="line">	<span class="keyword">for</span> postinDoc <span class="keyword">in</span> listOPosts:</div><div class="line">		trainMat.append(setOfWord2Vec(myVocabList,postinDoc))</div><div class="line">	<span class="keyword">return</span> trainMat</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">classifyNB</span><span class="params">(vec2Classify,p0Vec,p1Vec,pClass1)</span>:</span></div><div class="line">	p1 = sum(vec2Classify*p1Vec) + log(pClass1)</div><div class="line">	p0 = sum(vec2Classify*p0Vec) + log(<span class="number">1.0</span> - pClass1)</div><div class="line">	<span class="keyword">if</span> p1 &gt; p0:</div><div class="line">		<span class="keyword">return</span> <span class="number">1</span></div><div class="line">	<span class="keyword">else</span>:</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">testingNB</span><span class="params">()</span>:</span></div><div class="line">	listOPosts,listClasses = loadDataSet()</div><div class="line">	myVocabList = createVocabList(listOPosts)</div><div class="line">	trainMat = createTrainMat(listOPosts,myVocabList)</div><div class="line">	p0Vec,p1Vec,pAbusive = trainNBO(trainMat,listClasses)</div><div class="line">	testEntry = [<span class="string">'love'</span>,<span class="string">'my'</span>,<span class="string">'dalmation'</span>]</div><div class="line">	thisDoc = np.array(setOfWord2Vec(myVocabList,testEntry))</div><div class="line">	<span class="keyword">print</span> testEntry,<span class="string">'classified as: '</span>,classifyNB(thisDoc,p0Vec,p1Vec,pAbusive)</div><div class="line">	testEntry = [<span class="string">'stupid'</span>,<span class="string">'garbage'</span>]</div><div class="line">	thisDoc = np.array(setOfWord2Vec(myVocabList,testEntry))</div><div class="line">	<span class="keyword">print</span> testEntry,<span class="string">'classified as: '</span>,classifyNB(thisDoc,p0Vec,p1Vec,pAbusive)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">textParse</span><span class="params">(bigString)</span>:</span></div><div class="line">	<span class="keyword">import</span> re</div><div class="line">	regex = re.compile(<span class="string">'\\W*'</span>)</div><div class="line">	listOfTokens = regex.split(bigString)</div><div class="line">	<span class="keyword">return</span> [toke.lower() <span class="keyword">for</span> toke <span class="keyword">in</span> listOfTokens <span class="keyword">if</span> len(toke) &gt; <span class="number">2</span>]</div><div class="line"></div><div class="line"><span class="comment">#预测效果并不是很好，波动很大</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">spamTest</span><span class="params">()</span>:</span></div><div class="line">	docList = []; classList = []; fullText = [];</div><div class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">26</span>):</div><div class="line">		wordList = textParse(open(<span class="string">'email/ham/%d.txt'</span>%i).read())</div><div class="line">		docList.append(wordList)</div><div class="line">		fullText.extend(wordList)</div><div class="line">		classList.append(<span class="number">1</span>)</div><div class="line">		wordList = textParse(open(<span class="string">'email/spam/%d.txt'</span>%i).read())</div><div class="line">		docList.append(wordList)</div><div class="line">		fullText.append(wordList)</div><div class="line">		classList.append(<span class="number">0</span>)</div><div class="line">	vocabList = createVocabList(docList)</div><div class="line">	trainingSet = range(<span class="number">50</span>);testSet = []</div><div class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</div><div class="line">		randIndex = int(np.random.uniform(<span class="number">0</span>,len(trainingSet)))</div><div class="line">		testSet.append(randIndex)</div><div class="line">		<span class="keyword">del</span>(trainingSet[randIndex])</div><div class="line">	trainMat = []; trainClasses = []</div><div class="line">	<span class="keyword">for</span> docIndex <span class="keyword">in</span> trainingSet:</div><div class="line">		trainMat.append(bagOfWord2Vec(vocabList,docList[docIndex])) </div><div class="line">		trainClasses.append(classList[docIndex])</div><div class="line">	p0Vec,p1Vec,pAb = trainNBO(np.array(trainMat),np.array(trainClasses))</div><div class="line">	errorCount = <span class="number">0.0</span></div><div class="line">	<span class="keyword">for</span> docIndex <span class="keyword">in</span> testSet:</div><div class="line">		wordVector = bagOfWord2Vec(vocabList,docList[docIndex])</div><div class="line">		<span class="keyword">if</span> classifyNB(np.array(wordVector),p0Vec,p1Vec,pAb) != classList[docIndex]:</div><div class="line">			errorCount += <span class="number">1</span></div><div class="line">		<span class="comment"># print classList[docIndex],classifyNB(np.array(wordVector),p0Vec,p1Vec,pAb)</span></div><div class="line">	<span class="keyword">print</span> <span class="string">'the error rate is : '</span>,float(errorCount)/len(testSet)</div><div class="line">	<span class="keyword">return</span> float(errorCount)/len(testSet)</div><div class="line"></div><div class="line"><span class="comment">#计算平均错误率</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">calcErrorMeans</span><span class="params">()</span>:</span></div><div class="line">	n = int(raw_input(<span class="string">"Please input test times:"</span>))</div><div class="line">	errorRatio = <span class="number">0.0</span></div><div class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(n):</div><div class="line">		errorRatio += spamTest()</div><div class="line">	<span class="keyword">print</span> float(errorRatio)/n</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">calcMostFreq</span><span class="params">(vocabList,fullText)</span>:</span></div><div class="line">	<span class="keyword">import</span> operator</div><div class="line">	freqDict = &#123;&#125;</div><div class="line">	<span class="keyword">for</span> token <span class="keyword">in</span> vocabList:</div><div class="line">		freqDict[token] = fullText.count(token)</div><div class="line">	sortedFreq = sorted(freqDict.iteritems(),key=operator.itemgetter(<span class="number">1</span>),reverse=<span class="keyword">True</span>)</div><div class="line">	<span class="keyword">return</span> sortedFreq[:<span class="number">30</span>]</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">localWords</span><span class="params">(feed1,feed0)</span>:</span></div><div class="line">	<span class="keyword">import</span> feedparser</div><div class="line">	docList = []; classList = []; fullList = []</div><div class="line">	minLen = min(len(feed1[<span class="string">'entries'</span>]),len(feed0[<span class="string">'entries'</span>]))</div><div class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(minLen):</div><div class="line">		wordList = textParse(feed1[<span class="string">'entries'</span>][i][<span class="string">'summary'</span>])</div><div class="line">		docList.append(wordList)</div><div class="line">		fullList.extend(wordList)</div><div class="line">		classList.append(<span class="number">1</span>)</div><div class="line">		wordList = textParse(feed0[<span class="string">'entries'</span>][i][<span class="string">'summary'</span>])</div><div class="line">		docList.append(wordList)</div><div class="line">		fullList.extend(wordList)</div><div class="line">		classList.append(<span class="number">0</span>)</div><div class="line">	vocabList = createVocabList(docList)</div><div class="line">	top30Words = calcMostFreq(vocabList,fullList)</div><div class="line">	<span class="keyword">for</span> pairW <span class="keyword">in</span> top30Words:</div><div class="line">		<span class="keyword">if</span> pairW[<span class="number">0</span>] <span class="keyword">in</span> vocabList:</div><div class="line">			vocabList.remove(pairW[<span class="number">0</span>])</div><div class="line">	trainingSet = range(<span class="number">2</span>*minLen); testSet = []</div><div class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">20</span>):</div><div class="line">		randIndex = int(np.random.uniform(<span class="number">0</span>,len(trainingSet)))</div><div class="line">		testSet.append(randIndex)</div><div class="line">		<span class="keyword">del</span>(trainingSet[randIndex])</div><div class="line">	trainMat = []; trainClasses = []</div><div class="line">	<span class="keyword">for</span> docIndex <span class="keyword">in</span> trainingSet:</div><div class="line">		trainMat.append(bagOfWord2Vec(vocabList,docList[docIndex]))</div><div class="line">		trainClasses.append(classList[docIndex])</div><div class="line">	p0V,p1V,pSpam = trainNBO(np.array(trainMat),np.array(trainClasses))</div><div class="line">	errorCount = <span class="number">0.0</span></div><div class="line">	<span class="keyword">for</span> docIndex <span class="keyword">in</span> testSet:</div><div class="line">		wordVector = bagOfWord2Vec(vocabList,docList[docIndex])</div><div class="line">		<span class="keyword">if</span> classifyNB(np.array(wordVector),p0V,p1V,pSpam) != classList[docIndex]:</div><div class="line">			errorCount += <span class="number">1</span></div><div class="line">	<span class="keyword">print</span> <span class="string">'the error rate is: '</span>,float(errorCount)/len(testSet)</div><div class="line">	<span class="keyword">return</span> vocabList,p0V,p1V</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getTopWords</span><span class="params">(ny,sf)</span>:</span></div><div class="line">	<span class="keyword">import</span> operator</div><div class="line">	vocabList,p0V,p1V = localWords(ny,sf)</div><div class="line">	topNy = []; topSf = []</div><div class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(len(p0V)):</div><div class="line">		<span class="keyword">if</span> p0V[i] &gt; <span class="number">0.01</span> : topSf.append((vocabList[i],p0V[i]))</div><div class="line">		<span class="keyword">if</span> p1V[i] &gt; <span class="number">0.01</span> : topNy.append((vocabList[i],p1V[i]))</div><div class="line">	sortedSf = sorted(topSf,key=<span class="keyword">lambda</span> pair : pair[<span class="number">1</span>],reverse=<span class="keyword">True</span>)</div><div class="line">	<span class="keyword">print</span> <span class="string">"SF**SF**SF**SF**SF**SF**SF**SF**SF**SF**SF**SF**SF**SF"</span></div><div class="line">	<span class="keyword">for</span> item <span class="keyword">in</span> topSf:</div><div class="line">		<span class="keyword">print</span> item[<span class="number">0</span>]</div><div class="line">	sortedNy = sorted(topNy,key=<span class="keyword">lambda</span> pair : pair[<span class="number">1</span>],reverse=<span class="keyword">True</span>)</div><div class="line">	<span class="keyword">print</span> <span class="string">"NY**NY**NY**NY**NY**NY**NY**NY**NY**NY**NY**NY**NY**NY"</span></div><div class="line">	<span class="keyword">for</span> item <span class="keyword">in</span> topNy:</div><div class="line">		<span class="keyword">print</span> item[<span class="number">0</span>]</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://skajre.github.com/2017/03/28/机器学习第四章朴素贝叶斯/" data-id="cj0usybc10002uy8x63luymtz" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/03/26/机器学习第三章决策树/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">机器学习第三章决策树</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/03/28/机器学习第四章朴素贝叶斯/">机器学习第四章朴素贝叶斯</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/26/机器学习第三章决策树/">机器学习第三章决策树</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/26/机器学习第二章kNN算法/">机器学习第二章kNN算法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Jason shao<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

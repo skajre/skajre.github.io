@@ -68,6 +68,50 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-机器学习第四章朴素贝叶斯" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/28/机器学习第四章朴素贝叶斯/" class="article-date">
+  <time datetime="2017-03-28T14:55:18.000Z" itemprop="datePublished">2017-03-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/28/机器学习第四章朴素贝叶斯/">机器学习第四章朴素贝叶斯</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors"></div><br>朴素贝叶斯是一种根据概率估计值，给出一个最优类别的猜测的分类算法。</p>
+<p>之所以称之为”朴素”，是因为整个形式化过程只做了最原始，最简单的假设。一般来讲，对于一个特征，需要N个样本，那么对于10个样本，就需要$N^{10}$个样本，如果有1000个特征，就需要$N^{1000}$个样本，可以发现，数据量随着样本的增大而迅速增大，直到数据到达一个无法承受的量级。而朴素贝叶斯假设这些特征都是独立的，那么只需要$1000 \times N$个样本，数据量就下降到了一个我们可以承受的量级。当然，我们知道这种假设是不正确的，但这正是朴素贝叶斯分类器中朴素一词的含义。</p>
+<p>一个实例属于某个类的公式为：$p(c<em>{i}|w)=\frac{p(w|c</em>{i})p(c_{i})}{p(w)}$，$w$为有n个特征值的向量。</p>
+<p>由于之前假设特征独立，那么$p(w|c<em>{i})=p(w</em>{0}|c<em>{i}) \dots p(w</em>{n}|c_{i})$，然后直接选择概率最大的类就可以了。</p>
+        
+          <p class="article-more-link">
+            <a href="/2017/03/28/机器学习第四章朴素贝叶斯/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://skajre.github.com/2017/03/28/机器学习第四章朴素贝叶斯/" data-id="cj0usybc10002uy8x63luymtz" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-机器学习第三章决策树" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/03/26/机器学习第三章决策树/" class="article-date">
@@ -99,7 +143,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://skajre.github.com/2017/03/26/机器学习第三章决策树/" data-id="cj0qqk5sd0000d58x1hm12uv8" class="article-share-link">Share</a>
+      <a data-url="http://skajre.github.com/2017/03/26/机器学习第三章决策树/" data-id="cj0usybbg0000uy8x15f7iwrx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -141,7 +185,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://skajre.github.com/2017/03/26/机器学习第二章kNN算法/" data-id="cj0qqk5sv0001d58xx4hdsi66" class="article-share-link">Share</a>
+      <a data-url="http://skajre.github.com/2017/03/26/机器学习第二章kNN算法/" data-id="cj0usybbk0001uy8xvogjzv8c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -179,6 +223,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/03/28/机器学习第四章朴素贝叶斯/">机器学习第四章朴素贝叶斯</a>
+          </li>
         
           <li>
             <a href="/2017/03/26/机器学习第三章决策树/">机器学习第三章决策树</a>
